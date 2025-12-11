@@ -263,3 +263,9 @@ export async function chatWithInsights(jobId: string, message: string): Promise<
   return response.json()
 }
 
+export async function validateSubreddit(subreddit: string): Promise<{ exists: boolean; subreddit: string }> {
+  const response = await fetch(`${API_BASE}/reddit/validate/${encodeURIComponent(subreddit)}`)
+  if (!response.ok) throw new Error('Failed to validate subreddit')
+  return response.json()
+}
+

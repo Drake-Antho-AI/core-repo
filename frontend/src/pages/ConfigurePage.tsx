@@ -130,6 +130,7 @@ export function ConfigurePage() {
                   onChange={setSubreddits}
                   maxTags={10}
                   suggestions={SUGGESTED_SUBREDDITS}
+                  validateSubreddit={true}
                 />
                 <TagInput
                   label="Keywords / Brands"

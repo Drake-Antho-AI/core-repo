@@ -245,12 +245,23 @@ Return ONLY the JSON array, no other text."""
         # 1. Generate items based on ALL pain points (minimum threshold of 1)
         for i, (pain_point, count) in enumerate(aggregated["top_pain_points"][:5]):
             priority = "critical" if count >= 10 else "high" if count >= 5 else "medium" if count >= 2 else "low"
+            # More realistic impact scoring based on frequency and total posts
+            pct = (count / total * 100) if total > 0 else 0
+            if priority == "critical":
+                impact = min(95, 70 + int(pct * 0.3))
+            elif priority == "high":
+                impact = min(85, 55 + int(pct * 0.4))
+            elif priority == "medium":
+                impact = min(70, 40 + int(pct * 0.5))
+            else:
+                impact = min(55, 30 + int(pct * 0.4))
+            
             items.append({
                 "title": f"Address Customer Pain Point: {pain_point.title()[:50]}",
                 "description": f"This issue was mentioned {count} time(s) ({count/total*100:.0f}% of posts). Users are experiencing difficulties that should be investigated and resolved.",
                 "category": "product",
                 "priority": priority,
-                "impact_score": min(95, 40 + count * 8),
+                "impact_score": impact,
                 "effort_level": "medium" if count < 5 else "high",
                 "timeline": "Q1 2025" if priority in ["critical", "high"] else "Q2 2025",
                 "recommendations": [
@@ -266,12 +277,21 @@ Return ONLY the JSON array, no other text."""
         # 2. Generate items for ALL feature requests
         for feature, count in aggregated["top_feature_requests"][:5]:
             priority = "high" if count >= 5 else "medium" if count >= 2 else "low"
+            # Feature requests typically have lower impact than pain points
+            pct = (count / total * 100) if total > 0 else 0
+            if priority == "high":
+                impact = min(80, 50 + int(pct * 0.4))
+            elif priority == "medium":
+                impact = min(65, 35 + int(pct * 0.5))
+            else:
+                impact = min(50, 25 + int(pct * 0.4))
+            
             items.append({
                 "title": f"Feature Request: {feature.title()[:50]}",
                 "description": f"Users have requested this feature {count} time(s). This represents a product enhancement opportunity that could improve customer satisfaction.",
                 "category": "product",
                 "priority": priority,
-                "impact_score": min(85, 35 + count * 7),
+                "impact_score": impact,
                 "effort_level": "high",
                 "timeline": "Q2 2025" if priority == "high" else "Q3 2025",
                 "recommendations": [
@@ -287,12 +307,21 @@ Return ONLY the JSON array, no other text."""
         # 3. Brand-related insights
         for brand, count in aggregated["top_brands"][:3]:
             if count >= 2:
+                # Competitive analysis has moderate impact
+                pct = (count / total * 100) if total > 0 else 0
+                if count >= 10:
+                    impact = 70
+                elif count >= 5:
+                    impact = 60
+                else:
+                    impact = 50
+                
                 items.append({
                     "title": f"Competitive Analysis: {brand.title()}",
                     "description": f"{brand.title()} was mentioned {count} time(s) in discussions. Analyze competitor positioning and customer comparisons.",
                     "category": "marketing",
                     "priority": "medium",
-                    "impact_score": min(70, 30 + count * 5),
+                    "impact_score": impact,
                     "effort_level": "low",
                     "timeline": "Q2 2025",
                     "recommendations": [
@@ -311,12 +340,26 @@ Return ONLY the JSON array, no other text."""
         
         if negative > 0:
             neg_pct = negative / total * 100
+            # Impact based on negative percentage with more variation
+            if neg_pct > 50:
+                impact = 90
+            elif neg_pct > 40:
+                impact = 85
+            elif neg_pct > 30:
+                impact = 75
+            elif neg_pct > 20:
+                impact = 65
+            elif neg_pct > 10:
+                impact = 55
+            else:
+                impact = 45
+            
             items.append({
                 "title": "Address Negative Customer Sentiment",
                 "description": f"{negative} out of {total} posts ({neg_pct:.0f}%) expressed negative sentiment. Prioritize understanding and addressing customer frustrations.",
                 "category": "service",
                 "priority": "critical" if neg_pct > 40 else "high" if neg_pct > 20 else "medium",
-                "impact_score": min(90, int(50 + neg_pct)),
+                "impact_score": impact,
                 "effort_level": "high",
                 "timeline": "Q1 2025",
                 "recommendations": [
@@ -331,12 +374,22 @@ Return ONLY the JSON array, no other text."""
         
         if positive >= total * 0.3:
             pos_pct = positive / total * 100
+            # Positive sentiment has moderate impact
+            if pos_pct > 60:
+                impact = 70
+            elif pos_pct > 50:
+                impact = 65
+            elif pos_pct > 40:
+                impact = 60
+            else:
+                impact = 55
+            
             items.append({
                 "title": "Leverage Positive Customer Advocacy",
                 "description": f"{positive} out of {total} posts ({pos_pct:.0f}%) expressed positive sentiment. Build on this momentum with advocacy programs.",
                 "category": "marketing",
                 "priority": "medium",
-                "impact_score": min(75, int(40 + pos_pct * 0.5)),
+                "impact_score": impact,
                 "effort_level": "low",
                 "timeline": "Q2 2025",
                 "recommendations": [
