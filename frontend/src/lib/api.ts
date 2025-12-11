@@ -1,6 +1,7 @@
 // API client for Reddit Sentiment Analyzer
 
-const API_BASE = '/api'
+// Use environment variable for API base, fallback to /api for local dev with proxy
+const API_BASE = import.meta.env.VITE_API_URL || '/api'
 
 export interface JobCreate {
   subreddits: string[]

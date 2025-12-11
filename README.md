@@ -239,6 +239,62 @@ del sqlitedb.db  # Windows
 python -m uvicorn app.main:app --reload
 ```
 
+## Deployment
+
+### Frontend: Cloudflare Pages
+
+1. **Connect to Cloudflare Pages**:
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) → Pages
+   - Click "Create a project" → "Connect to Git"
+   - Select your GitHub repository
+
+2. **Configure Build Settings**:
+   - **Framework preset**: Vite
+   - **Build command**: `cd frontend && npm install && npm run build`
+   - **Build output directory**: `frontend/dist`
+   - **Root directory**: `/` (leave empty)
+
+3. **Set Environment Variables**:
+   - Add `VITE_API_URL` = `https://your-backend-url.com/api`
+
+4. **Custom Domain**:
+   - In Pages settings → Custom domains
+   - Add your subdomain (e.g., `sentiment.yourdomain.com`)
+   - Cloudflare handles SSL automatically
+
+### Backend: Railway (Recommended)
+
+The backend needs a Python server. [Railway](https://railway.app) offers easy deployment:
+
+1. **Create Railway Project**:
+   - Connect your GitHub repo
+   - Select the `backend` directory
+
+2. **Configure Service**:
+   ```
+   Build Command: pip install -r requirements.txt
+   Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+   ```
+
+3. **Add Environment Variables**:
+   ```
+   OLLAMA_BASE_URL=https://your-ollama-instance
+   OLLAMA_MODEL=qwen2:0.5b
+   ```
+
+4. **LLM Options**:
+   - **Option A**: Use [Ollama Cloud](https://ollama.com/cloud) or self-hosted Ollama on a GPU VM
+   - **Option B**: Switch to OpenAI API (modify `ollama_analyzer.py`)
+
+### Alternative Backend Hosts
+
+| Service | Pros | Cons |
+|---------|------|------|
+| [Railway](https://railway.app) | Easy, $5 free credit | Limited free tier |
+| [Render](https://render.com) | Good free tier | Sleeps after 15min |
+| [Fly.io](https://fly.io) | Global edge | More complex setup |
+| [DigitalOcean](https://digitalocean.com) | Full VPS control | $6+/month |
+
 ## License
 
 MIT License - see LICENSE file for details.

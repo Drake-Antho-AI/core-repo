@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { BarChart3, Settings, FileText, Lightbulb, ListTodo, Plus } from 'lucide-react'
+import { BarChart3, ListTodo, Plus } from 'lucide-react'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -23,7 +23,7 @@ export function Layout({ children }: LayoutProps) {
               <h1 className="font-display font-bold text-xl text-white">
                 Reddit Sentiment
               </h1>
-              <p className="text-xs text-white/50">by Anthologic</p>
+              <p className="text-xs text-white/50">by Drake-Antho AI</p>
             </div>
           </Link>
 
@@ -52,7 +52,7 @@ export function Layout({ children }: LayoutProps) {
 
       {/* Footer */}
       <footer className="py-8 text-center text-white/30 text-sm">
-        <p>Reddit Sentiment Analyzer &copy; 2025 Anthologic</p>
+        <p>Reddit Sentiment Analyzer &copy; 2025 Drake-Antho AI</p>
       </footer>
     </div>
   )

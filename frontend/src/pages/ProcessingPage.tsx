@@ -6,7 +6,6 @@ import { Card, CardContent, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Progress } from '@/components/ui/Progress'
 import { getJob } from '@/lib/api'
-import { formatDuration } from '@/lib/utils'
 
 export function ProcessingPage() {
   const { jobId } = useParams<{ jobId: string }>()

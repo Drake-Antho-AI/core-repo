@@ -1,18 +1,17 @@
 import { useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { 
-  Search, Filter, ExternalLink, MessageSquare, ArrowUpRight, 
-  Lightbulb, Download, ChevronDown, X
+  Search, Filter, ExternalLink, MessageSquare,
+  Lightbulb, Download, X
 } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/Card'
+import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/Input'
 import { Checkbox } from '@/components/ui/Checkbox'
 import { Badge } from '@/components/ui/Badge'
 import { getPosts, getPostStats, getSubreddits, Post } from '@/lib/api'
 import { 
-  getSentimentColor, getSentimentEmoji, getSentimentBgColor,
+  getSentimentEmoji, getSentimentBgColor,
   formatRelativeTime, truncate 
 } from '@/lib/utils'
 

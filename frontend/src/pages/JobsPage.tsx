@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { 
   Clock, CheckCircle, XCircle, Loader2, Trash2, 
   BarChart3, ArrowRight, Plus, RefreshCw, Pause, Play
 } from 'lucide-react'
-import { Card, CardContent, CardTitle } from '@/components/ui/Card'
+import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
